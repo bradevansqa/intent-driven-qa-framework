@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 
-test('Login – Invalid Password', async ({ page }) => {
+test('Login - Invalid Password', async ({ page }) => {
   // Manual Test: manual-tests/login/login-invalid-password.md
 
   const loginPage = new LoginPage(page);
