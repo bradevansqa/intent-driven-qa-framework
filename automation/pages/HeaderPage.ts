@@ -6,10 +6,13 @@ export class HeaderPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.logoutButton = page.locator('[data-qa="logout"]');
+
+    // Codegen shows Logout is a visible link in the header
+    this.logoutButton = page.getByRole('link', { name: /logout/i });
   }
 
   async logout(): Promise<void> {
     await this.logoutButton.click();
   }
 }
+

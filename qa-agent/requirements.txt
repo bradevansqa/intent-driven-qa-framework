@@ -1,0 +1,11 @@
+# Core language support
+python-dotenv>=1.0.0
+
+# Vector memory (lightweight, local)
+chromadb>=0.4.22
+
+# Optional: embeddings provider (can be swapped)
+sentence-transformers>=2.2.2
+
+# Utilities
+pydantic>=2.5.0

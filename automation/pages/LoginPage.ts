@@ -2,11 +2,20 @@ import { Page, Locator } from '@playwright/test';
 
 export class LoginPage {
   private readonly page: Page;
-  readonly errorMessage: Locator;
+  private readonly loginForm: Locator;
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly loginButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.errorMessage = page.locator('[data-qa="login-error"]');
+
+    // 🔑 CRITICAL: scope everything to the Login form
+    this.loginForm = page.locator('form').filter({ hasText: 'Login' });
+
+    this.emailInput = this.loginForm.getByPlaceholder('Email Address');
+    this.passwordInput = this.loginForm.getByPlaceholder('Password');
+    this.loginButton = this.loginForm.getByRole('button', { name: 'Login' });
   }
 
   async open(): Promise<void> {
@@ -14,9 +23,16 @@ export class LoginPage {
   }
 
   async login(email: string, password: string): Promise<void> {
-    await this.page.fill('[data-qa="login-email"]', email);
-    await this.page.fill('[data-qa="login-password"]', password);
-    await this.page.click('[data-qa="login-button"]');
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
+
+  /**
+   * AutomationExercise renders login errors as plain text
+   * inside the form — no stable container.
+   */
+  get errorMessage(): Locator {
+    return this.page.getByText(/your email or password is incorrect/i);
   }
 }
-
