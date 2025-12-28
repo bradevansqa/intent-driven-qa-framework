@@ -9,3 +9,6 @@ test-results/
 .env
 
 automation/.auth/
+playwright-report/
+test-results/
+
